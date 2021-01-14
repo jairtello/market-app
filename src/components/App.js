@@ -1,5 +1,5 @@
 const App = () => {
-  return <h1>Plataforma de administración de almacén</h1>;
+  return <h1>Hola Mundo</h1>;
 };
 
 export default App;
