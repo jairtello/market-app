@@ -1,27 +1,20 @@
 import {
-  GET_ALL_POSTS,
   GET_ALL_USERS,
   GET_ALL_PRODUCTS,
-  GET_POST,
   GET_USER,
-  GET_PRODUCT
+  GET_PRODUCT,
+  GET_USER_LOG_IN,
 } from "./actions";
 
-export const postReducer = (state = {}, action) => {
-  if (action.type === GET_ALL_POSTS) {
+export const loginReducer = (state = {}, action) => {
+  if (action.type === GET_USER_LOG_IN) {
     return {
       ...state,
-      posts: action.posts,
+      nombre: action.nombre,
+      email: action.email,
+      role: action.role,
     };
   }
-
-  if (action.type === GET_POST) {
-    return {
-      ...state,
-      post: action.post,
-    };
-  }
-
   return state;
 };
 

@@ -1,23 +1,20 @@
 import axios from "axios";
 import {
-  GET_ALL_POSTS,
-  GET_POST,
   GET_ALL_USERS,
   GET_ALL_PRODUCTS,
   GET_USER,
   GET_PRODUCT,
+  GET_USER_LOG_IN,
 } from "./actions";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const getAllPosts = () => (dispatch) => {
-  axios.get(`${API_URL}/posts`).then((resp) => {
-    return dispatch({
-      type: GET_ALL_POSTS,
-      posts: resp.data,
-    });
-  });
-};
+export const getUserLogIn = (nombre, email, role) => ({
+  type: GET_USER_LOG_IN,
+  nombre,
+  email,
+  role,
+});
 
 export const getAllUsers = () => (dispatch) => {
   axios.get(`${API_URL}/usuario`).then((resp) => {
@@ -33,15 +30,6 @@ export const getAllProducts = () => (dispatch) => {
     return dispatch({
       type: GET_ALL_PRODUCTS,
       products: resp.data,
-    });
-  });
-};
-
-export const getPost = (id) => (dispatch) => {
-  axios.get(`${API_URL}/posts/${id}`).then((resp) => {
-    return dispatch({
-      type: GET_POST,
-      post: resp.data,
     });
   });
 };

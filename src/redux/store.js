@@ -1,13 +1,17 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import { postReducer, userReducer, productReducer } from "./reducers";
+import {
+  userReducer,
+  productReducer,
+  loginReducer,
+} from "./reducers";
 
 export default createStore(
   combineReducers({
-    postReducer,
     userReducer,
     productReducer,
+    loginReducer,
   }),
   composeWithDevTools(applyMiddleware(thunk))
 );

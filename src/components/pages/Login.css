@@ -1,3 +1,7 @@
 .vh {
   height: 100vh;
 }
+
+.form-login {
+  width: 330px;
+}

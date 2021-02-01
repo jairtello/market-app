@@ -7,7 +7,7 @@ const Public = ({ component: Component, ...rest }) => {
     return <Redirect to="/" />;
   }
 
-  return <Route {...rest} render={Component} />;
+  return <Route {...rest} component={Component} />;
 };
 
 export default Public;

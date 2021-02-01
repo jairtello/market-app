@@ -1,35 +1,41 @@
+import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Container, Row } from "react-bootstrap";
 import "./Login.css";
 import axios from "axios";
 
-const authentication = (e) => {
-  e.preventDefault();
-  const form = e.target;
+const Login = ({ addUserToStore }) => {
+  const [isLogged, setIsLogged] = useState(true);
 
-  const data = {
-    email: form.correo.value,
-    password: form.pass.value,
+  const authentication = (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      email: form.correo.value,
+      password: form.pass.value,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/login`, data)
+      .then((resp) => {
+        localStorage.setItem("token", resp.data.token);
+        setIsLogged(true);
+        window.location = "/";
+      })
+      .catch(() => {
+        setIsLogged(false);
+      });
   };
 
-  axios
-    .post(`${process.env.REACT_APP_API_URL}/login`, data)
-    .then((resp) => {
-      localStorage.setItem("token", resp.data.token);
-      window.location = "/";
-    })
-    .catch(() => alert("Usuario o contraseña incorrecta"));
-};
-
-const Login = () => {
   return (
     <div className="vh d-flex align-items-center">
       <Container>
         <Row className="justify-content-md-center">
-          <Form onSubmit={authentication.bind()}>
-            <h1 className="text-center">Iniciar Sesión</h1>
-            <Form.Group controlId="formBasicEmail">
+          <Form className="form-login" onSubmit={authentication.bind()}>
+            <h1 className="text-center mb-5">Login</h1>
+            <Form.Group className="mb-5" controlId="formBasicEmail">
               <Form.Label>Correo electrónico</Form.Label>
               <Form.Control
                 name="correo"
@@ -39,7 +45,7 @@ const Login = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
+            <Form.Group className="mb-5" controlId="formBasicPassword">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
                 name="pass"
@@ -47,9 +53,13 @@ const Login = () => {
                 type="password"
                 placeholder="Ingrese su contraseña"
               />
-              {/* <Form.Text className="text-muted">
-                Recuerde ingresar bien su contraseña
-              </Form.Text> */}
+              {!isLogged ? (
+                <Form.Text className="mb-5 text-danger">
+                  Correo o contraseña incorrecta
+                </Form.Text>
+              ) : (
+                ""
+              )}
             </Form.Group>
             <Button block variant="primary" size="lg" type="submit">
               Iniciar sesión
