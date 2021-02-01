@@ -20,7 +20,7 @@ export const getAllPosts = () => (dispatch) => {
 };
 
 export const getAllUsers = () => (dispatch) => {
-  axios.get(`${API_URL}/usuarios`).then((resp) => {
+  axios.get(`${API_URL}/usuario`).then((resp) => {
     return dispatch({
       type: GET_ALL_USERS,
       users: resp.data,
@@ -29,7 +29,7 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 export const getAllProducts = () => (dispatch) => {
-  axios.get(`${API_URL}/productos`).then((resp) => {
+  axios.get(`${API_URL}/producto`).then((resp) => {
     return dispatch({
       type: GET_ALL_PRODUCTS,
       products: resp.data,

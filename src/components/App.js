@@ -6,6 +6,7 @@ import ProductOutput from "./pages/ProductOutput";
 import Reports from "./pages/Reports";
 import Login from "./pages/Login";
 import Page404 from "./pages/Page404";
+import Categories from "./pages/Categories";
 import Protected from "./routes/Protected";
 import Public from "./routes/Public";
 import Header from "./organisms/Header";
@@ -16,6 +17,7 @@ const App = () => (
     <Switch>
       <Protected path="/" exact component={Home} />
       <Protected path="/usuarios" exact component={Users} />
+      <Protected path="/categorias" exact component={Categories} />
       <Protected path="/entrada-productos" exact component={ProductEntry} />
       <Protected path="/salida-productos" exact component={ProductOutput} />
       <Protected path="/reportes" exact component={Reports} />

@@ -4,9 +4,6 @@ import App from "./components/App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { getAllUsers } from "./redux/actionCreators";
-
-store.dispatch(getAllUsers());
 
 ReactDOM.render(
   <Provider store={store}>

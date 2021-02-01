@@ -3,23 +3,23 @@ import Button from "react-bootstrap/Button";
 import { Container, Row } from "react-bootstrap";
 import "./Login.css";
 import axios from "axios";
-import { LOGIN_JTW_URL } from "../../redux/actions";
 
 const authentication = (e) => {
   e.preventDefault();
   const form = e.target;
 
   const data = {
-    email: form.email.value,
-    password: form.password.value,
+    email: form.correo.value,
+    password: form.pass.value,
   };
 
   axios
-    .post(LOGIN_JTW_URL, data)
+    .post(`${process.env.REACT_APP_API_URL}/login`, data)
     .then((resp) => {
       localStorage.setItem("token", resp.data.token);
-      window.location = "/"
-    }).catch(()=>alert("Correo o contraseña incorrecta"));
+      window.location = "/";
+    })
+    .catch(() => alert("Usuario o contraseña incorrecta"));
 };
 
 const Login = () => {
@@ -32,7 +32,7 @@ const Login = () => {
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Correo electrónico</Form.Label>
               <Form.Control
-                name="email"
+                name="correo"
                 required
                 type="email"
                 placeholder="Ingrese su e-mail"
@@ -42,7 +42,7 @@ const Login = () => {
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
-                name="password"
+                name="pass"
                 required
                 type="password"
                 placeholder="Ingrese su contraseña"
