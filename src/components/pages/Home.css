@@ -1,0 +1,33 @@
+.home-container {
+  height: calc(100vh - 56px);
+  width: 100%;
+  position: absolute;
+  top: 56px;
+  z-index: 10;
+}
+
+.bg-home {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: calc(100vh - 56px);
+  background-image: url("../../assets/img/home.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  /* z-index: 1; */
+}
+
+.bg-black {
+  height: calc(100vh - 56px);
+  background-color: rgba(0, 0, 0, 0.144);
+  position: relative;
+  top: 0px;
+  z-index: 10;
+}
+
+.card-home {
+  z-index: 15;
+}
+.text-phrase {
+  font-style: italic;
+}

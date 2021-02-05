@@ -5,7 +5,14 @@ import Container from "react-bootstrap/Container";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getUserLogIn } from "../../redux/actionCreators";
+import {
+  getAllCategories,
+  getAllMovements,
+  getAllProducts,
+  getAllUsers,
+  getUserLogIn,
+} from "../../redux/actionCreators";
+import store from "../../redux/store";
 
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
@@ -24,34 +31,46 @@ const PrivateMenu = ({ addUserToStore, nombre, email, role }) => {
     let payload = parseJwt(token);
     let { nombre, email, role } = payload.usuario;
     addUserToStore(nombre, email, role);
-  });
+  }, []);
+
+  useEffect(() => {
+    store.dispatch(getAllUsers());
+    store.dispatch(getAllCategories());
+    store.dispatch(getAllProducts());
+    store.dispatch(getAllMovements());
+  }, []);
 
   role = role === "ADMIN_ROLE" ? "ADMINISTRADOR" : "ASISTENTE";
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar
+      className="mb-5"
+      collapseOnSelect
+      expand="lg"
+      bg="dark"
+      variant="dark"
+    >
       <Container>
         <Navbar.Brand as={NavLink} exact to="/">
-          {role}
+          Inicio
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             {role === "ADMINISTRADOR" ? (
-              <Nav.Link as={NavLink} to="/usuarios">
-                Usuarios
-              </Nav.Link>
+              <>
+                <Nav.Link as={NavLink} to="/usuarios">
+                  Usuarios
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/categorias">
+                  Categoría
+                </Nav.Link>
+              </>
             ) : (
               ""
             )}
-            <Nav.Link as={NavLink} to="/categorias">
-              Categoría
-            </Nav.Link>
             <Nav.Link as={NavLink} to="/productos">
               Producto
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/reportes">
-              Reportes
             </Nav.Link>
             <NavDropdown title="Movimiento" id="collasible-nav-dropdown">
               <NavDropdown.Item as={NavLink} to="/entrada-productos">
@@ -62,9 +81,21 @@ const PrivateMenu = ({ addUserToStore, nombre, email, role }) => {
                 Salida
               </NavDropdown.Item>
             </NavDropdown>
+            <NavDropdown title="Reporte" id="collasible-nav-dropdown2">
+              <NavDropdown.Item as={NavLink} to="/reporte-movimientos">
+                Movimientos
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item as={NavLink} to="/reporte-stock">
+                Stock
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
           <Nav>
-            <NavDropdown title={nombre} id="collasible-nav-dropdown">
+            <NavDropdown
+              title={nombre === undefined ? "Usuario" : nombre}
+              id="collasible-nav-dropdown"
+            >
               <div className="d-flex justify-content-center">
                 <Navbar.Text className="text-dark">{email}</Navbar.Text>
               </div>

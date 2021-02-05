@@ -5,6 +5,8 @@ import {
   userReducer,
   productReducer,
   loginReducer,
+  categorieReducer,
+  movementReducer,
 } from "./reducers";
 
 export default createStore(
@@ -12,6 +14,8 @@ export default createStore(
     userReducer,
     productReducer,
     loginReducer,
+    categorieReducer,
+    movementReducer,
   }),
   composeWithDevTools(applyMiddleware(thunk))
 );

@@ -3,7 +3,8 @@ import Home from "./pages/Home";
 import Users from "./pages/Users";
 import ProductEntry from "./pages/ProductEntry";
 import ProductOutput from "./pages/ProductOutput";
-import Reports from "./pages/Reports";
+import ReportMovement from "./pages/ReportMovement";
+import ReportStock from "./pages/ReportStock";
 import Login from "./pages/Login";
 import Page404 from "./pages/Page404";
 import Categories from "./pages/Categories";
@@ -22,7 +23,8 @@ const App = () => (
       <Protected path="/productos" exact component={Product} />
       <Protected path="/entrada-productos" exact component={ProductEntry} />
       <Protected path="/salida-productos" exact component={ProductOutput} />
-      <Protected path="/reportes" exact component={Reports} />
+      <Protected path="/reporte-movimientos" exact component={ReportMovement} />
+      <Protected path="/reporte-stock" exact component={ReportStock} />
 
       <Public path="/login" exact component={Login} />
 
