@@ -8,6 +8,11 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { getAllMovements } from "../../redux/actionCreators";
 import store from "../../redux/store";
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const columns = [
   {
@@ -47,7 +52,25 @@ const ReportMovement = ({ movements }) => {
 
   const [data, setData] = useState([]);
 
-  const loadData = (radioTipe, radioDate) => {
+  // String to Date
+
+  const convertDateToNumberAPI = (date) => {
+    const splitDate = date.split("/");
+
+    const dateFormat = new Date(splitDate[2], splitDate[1] - 1, splitDate[0]);
+
+    return dateFormat.getTime();
+  };
+
+  const convertDateToNumberInput = (date) => {
+    const splitDate = date.split("-");
+
+    const dateFormat = new Date(splitDate[0], splitDate[1] - 1, splitDate[2]);
+
+    return dateFormat.getTime();
+  };
+
+  const loadData = (radioTipe, radioDate, desde = "", hasta = "") => {
     switch (radioDate) {
       case "radioAll":
         switch (radioTipe) {
@@ -62,10 +85,26 @@ const ReportMovement = ({ movements }) => {
             );
             break;
           case "radioEntrada":
-            // setData(movements.filter((m) => m.nombre === "Entrada"));
+            let dataEntry = movements.filter((m) => m.nombre === "Entrada");
+            setData(
+              dataEntry.map((m) => ({
+                tipo: m.nombre,
+                fecha: m.fecha,
+                producto: m.producto.nombre,
+                cantidad: m.cantidad,
+              }))
+            );
             break;
           case "radioSalida":
-            // setData(movements.filter((m) => m.nombre === "Entrada"));
+            let dataOutPut = movements.filter((m) => m.nombre === "Salida");
+            setData(
+              dataOutPut.map((m) => ({
+                tipo: m.nombre,
+                fecha: m.fecha,
+                producto: m.producto.nombre,
+                cantidad: m.cantidad,
+              }))
+            );
             break;
 
           default:
@@ -74,7 +113,150 @@ const ReportMovement = ({ movements }) => {
         }
         break;
       case "radioRank":
-        console.warn("Falta programar :)");
+        switch (radioTipe) {
+          case "radioTodo":
+            if (desde === "" && hasta === "") {
+              if (valueInputDate.desde !== "" && valueInputDate.hasta !== "") {
+                const desdeNumber = convertDateToNumberInput(
+                  valueInputDate.desde
+                );
+                const hastaNumber = convertDateToNumberInput(
+                  valueInputDate.hasta
+                );
+
+                let dataEntry = movements.filter(
+                  (m) =>
+                    convertDateToNumberAPI(m.fecha) >= desdeNumber &&
+                    convertDateToNumberAPI(m.fecha) <= hastaNumber
+                );
+                setData(
+                  dataEntry.map((m) => ({
+                    tipo: m.nombre,
+                    fecha: m.fecha,
+                    producto: m.producto.nombre,
+                    cantidad: m.cantidad,
+                  }))
+                );
+              }
+            } else {
+              const desdeNumber = convertDateToNumberInput(desde);
+              const hastaNumber = convertDateToNumberInput(hasta);
+
+              let dataEntry = movements.filter(
+                (m) =>
+                  convertDateToNumberAPI(m.fecha) >= desdeNumber &&
+                  convertDateToNumberAPI(m.fecha) <= hastaNumber
+              );
+              setData(
+                dataEntry.map((m) => ({
+                  tipo: m.nombre,
+                  fecha: m.fecha,
+                  producto: m.producto.nombre,
+                  cantidad: m.cantidad,
+                }))
+              );
+            }
+            break;
+          case "radioEntrada":
+            let dataEntryFilter = movements.filter(
+              (m) => m.nombre === "Entrada"
+            );
+
+            if (desde === "" && hasta === "") {
+              if (valueInputDate.desde !== "" && valueInputDate.hasta !== "") {
+                const desdeNumber = convertDateToNumberInput(
+                  valueInputDate.desde
+                );
+                const hastaNumber = convertDateToNumberInput(
+                  valueInputDate.hasta
+                );
+
+                let dataEntry = dataEntryFilter.filter(
+                  (m) =>
+                    convertDateToNumberAPI(m.fecha) >= desdeNumber &&
+                    convertDateToNumberAPI(m.fecha) <= hastaNumber
+                );
+                setData(
+                  dataEntry.map((m) => ({
+                    tipo: m.nombre,
+                    fecha: m.fecha,
+                    producto: m.producto.nombre,
+                    cantidad: m.cantidad,
+                  }))
+                );
+              }
+            } else {
+              const desdeNumber = convertDateToNumberInput(desde);
+              const hastaNumber = convertDateToNumberInput(hasta);
+
+              let dataEntry = dataEntryFilter.filter(
+                (m) =>
+                  convertDateToNumberAPI(m.fecha) >= desdeNumber &&
+                  convertDateToNumberAPI(m.fecha) <= hastaNumber
+              );
+              setData(
+                dataEntry.map((m) => ({
+                  tipo: m.nombre,
+                  fecha: m.fecha,
+                  producto: m.producto.nombre,
+                  cantidad: m.cantidad,
+                }))
+              );
+            }
+
+            break;
+          case "radioSalida":
+            let dataEntriesFilter = movements.filter(
+              (m) => m.nombre === "Salida"
+            );
+
+            if (desde === "" && hasta === "") {
+              if (valueInputDate.desde !== "" && valueInputDate.hasta !== "") {
+                const desdeNumber = convertDateToNumberInput(
+                  valueInputDate.desde
+                );
+                const hastaNumber = convertDateToNumberInput(
+                  valueInputDate.hasta
+                );
+
+                let dataEntry = dataEntriesFilter.filter(
+                  (m) =>
+                    convertDateToNumberAPI(m.fecha) >= desdeNumber &&
+                    convertDateToNumberAPI(m.fecha) <= hastaNumber
+                );
+                setData(
+                  dataEntry.map((m) => ({
+                    tipo: m.nombre,
+                    fecha: m.fecha,
+                    producto: m.producto.nombre,
+                    cantidad: m.cantidad,
+                  }))
+                );
+              }
+            } else {
+              const desdeNumber = convertDateToNumberInput(desde);
+              const hastaNumber = convertDateToNumberInput(hasta);
+
+              let dataEntry = dataEntriesFilter.filter(
+                (m) =>
+                  convertDateToNumberAPI(m.fecha) >= desdeNumber &&
+                  convertDateToNumberAPI(m.fecha) <= hastaNumber
+              );
+              setData(
+                dataEntry.map((m) => ({
+                  tipo: m.nombre,
+                  fecha: m.fecha,
+                  producto: m.producto.nombre,
+                  cantidad: m.cantidad,
+                }))
+              );
+            }
+            break;
+
+          default:
+            console.log("Tipo de movimiento no seleccionada");
+            break;
+        }
         break;
       default:
         console.log("Rango de fechas no seleccionada");
@@ -89,10 +271,26 @@ const ReportMovement = ({ movements }) => {
       ...prevState,
       [name]: value,
     }));
+
+    if (valueRadioTipe !== "none" && valueRadioDate !== "none") {
+      if (name === "desde") {
+        if (valueInputDate.hasta !== "") {
+          loadData(valueRadioTipe, valueRadioDate, value, valueInputDate.hasta);
+        }
+      } else {
+        if (valueInputDate.desde !== "") {
+          loadData(valueRadioTipe, valueRadioDate, valueInputDate.desde, value);
+        }
+      }
+    }
   };
 
   const handleChangeRank = (e) => {
     const { id } = e.target;
+
+    if (valueRadioTipe !== "none") {
+      loadData(valueRadioTipe, id);
+    }
 
     setValueRadioDate(id);
     if (id === "radioRank") {
@@ -205,6 +403,7 @@ const ReportMovement = ({ movements }) => {
               <Form.Group className="mb-4" controlId="formBasicText">
                 <Form.Label>Desde</Form.Label>
                 <Form.Control
+                  onKeyDown={(e) => e.preventDefault()}
                   onChange={handleChangeDate}
                   name="desde"
                   required
@@ -217,6 +416,7 @@ const ReportMovement = ({ movements }) => {
               <Form.Group className="mb-4" controlId="formBasicText2">
                 <Form.Label>Hasta</Form.Label>
                 <Form.Control
+                  onKeyDown={(e) => e.preventDefault()}
                   onChange={handleChangeDate}
                   name="hasta"
                   required
@@ -228,9 +428,21 @@ const ReportMovement = ({ movements }) => {
               </Form.Group>
             </fieldset>
             <Form.Group>
-              <Button className="mr-3" variant="primary" type="submit">
-                Generar reporte
-              </Button>
+              <ExcelFile
+                element={
+                  <Button className="mr-3" type="submit" variant="primary">
+                    Generar reporte (Excel)
+                  </Button>
+                }
+                filename="Reporte Movimiento"
+              >
+                <ExcelSheet data={data} name="Stock">
+                  <ExcelColumn label="Tipo" value="tipo" />
+                  <ExcelColumn label="Fecha" value="fecha" />
+                  <ExcelColumn label="Producto" value="producto" />
+                  <ExcelColumn label="Cantidad" value="cantidad" />
+                </ExcelSheet>
+              </ExcelFile>
             </Form.Group>
           </Form>
         </Col>
